@@ -8,6 +8,7 @@ using namespace car;
 
 ExecutorImpl* ExecutorImpl::NewExecutor(const Pose& pose) {
 	ExecutorImpl* pExecutor = new ExecutorImpl(pose);
+	return pExecutor;
 }
 
 ExecutorImpl::ExecutorImpl(const Pose& poseIn) {
@@ -17,14 +18,11 @@ ExecutorImpl::ExecutorImpl(const Pose& poseIn) {
 }
 
 void ExecutorImpl::Execute(const std::string& command) {
-	std::stringstream commandStream(command);
-	std::string oneCommand;
-
-	while (commandStream >> oneCommand) {
-		char charCmd = oneCommand[1];
+	for (int i = 0; i < command.length(); i++) {
+		char oneCommand = command[i];
 		Pose currentPose = Query();
 
-		switch (charCmd) {
+		switch (oneCommand) {
 			case ('M'):
 				currentPose.x += forward[dir[currentPose.heading]][X];
 				currentPose.y += forward[dir[currentPose.heading]][Y];
@@ -36,6 +34,9 @@ void ExecutorImpl::Execute(const std::string& command) {
 
 			case ('R'):
 				currentPose.heading = (currentPose.heading + 1) % DIRECTIONS;
+				break;
+
+			default:
 				break;
 		}
 	}
