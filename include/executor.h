@@ -13,8 +13,8 @@ struct Pose {
 	char heading;
 };
 
-std::map<char, int> dir = {{'N', 0}, {'E', 1}, {'S', 2}, {'W', 3}};
-int forward[DIRECTIONS][2] = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+extern std::map<char, int> dir;
+extern int forward[DIRECTIONS][2];
 
 class Executor {
    protected:
