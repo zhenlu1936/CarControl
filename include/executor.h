@@ -13,7 +13,8 @@ struct Pose {
 	char heading;
 };
 
-extern std::map<char, int> dir;
+extern std::map<char, int> dir_char_to_int;
+extern std::map<int, char> dir_int_to_char;
 extern int forward[DIRECTIONS][2];
 
 class Executor {
@@ -32,6 +33,7 @@ class Executor {
    public:
 	virtual void Execute(const std::string& command) noexcept = 0;
 	virtual Pose Query() const noexcept = 0;
+	virtual void Change(const Pose& pose) noexcept = 0;
 };
 
 class ExecutorImpl : public Executor {
@@ -43,6 +45,7 @@ class ExecutorImpl : public Executor {
    public:
 	virtual void Execute(const std::string& command) noexcept;
 	virtual Pose Query() const noexcept;
+	virtual void Change(const Pose& pose) noexcept;
 };
 
 }  // namespace car
