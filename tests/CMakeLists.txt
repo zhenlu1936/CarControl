@@ -1,0 +1,8 @@
+set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
+
+ADD_SUBDIRECTORY(googletest EXCLUDE_FROM_ALL)
+AUX_SOURCE_DIRECTORY(. SOURCE)
+ADD_EXECUTABLE(executorTestsRun ${SOURCE})
+TARGET_LINK_LIBRARIES(executorTestsRun executor gtest_main)
+
+ADD_TEST(NAME executorTestsRun COMMAND executorTestsRun)
