@@ -49,7 +49,13 @@ class ExecutorImpl : public Executor {
 	void TurnLeft(Pose& currentPose) noexcept;
 	void TurnRight(Pose& currentPose) noexcept;
 
-	class MoveCommand {
+	class ICommand {
+	   public:
+		virtual ~ICommand() = default;
+		virtual void Operate(ExecutorImpl& executor) const noexcept = 0;
+	};
+
+	class MoveCommand : public ICommand {
 	   public:
 		void Operate(ExecutorImpl& executor) const noexcept {
 			Pose currentPose = executor.Query();
@@ -58,7 +64,7 @@ class ExecutorImpl : public Executor {
 		}
 	};
 
-	class TurnLeftCommand {
+	class TurnLeftCommand : public ICommand {
 	   public:
 		void Operate(ExecutorImpl& executor) const noexcept {
 			Pose currentPose = executor.Query();
@@ -67,7 +73,7 @@ class ExecutorImpl : public Executor {
 		}
 	};
 
-	class TurnRightCommand {
+	class TurnRightCommand : public ICommand {
 	   public:
 		void Operate(ExecutorImpl& executor) const noexcept {
 			Pose currentPose = executor.Query();
