@@ -48,3 +48,43 @@ TEST(ExecutorTest, default_use_RM_to_x1_y0_E) {
 	ASSERT_EQ(pExecutor->Query().y, 0);
 	ASSERT_EQ(pExecutor->Query().heading, 'E');
 }
+
+TEST(ExecutorTest, x1_y1_E_use_FM_to_x3_y1_E) {
+	std::unique_ptr<ExecutorImpl> pExecutor(
+		ExecutorImpl::NewExecutor({false, 1, 1, 'E'}));
+	std::string command = "FM";
+	pExecutor->Execute(command);
+	ASSERT_EQ(pExecutor->Query().x, 3);
+	ASSERT_EQ(pExecutor->Query().y, 1);
+	ASSERT_EQ(pExecutor->Query().heading, 'E');
+}
+
+TEST(ExecutorTest, x1_y1_N_use_FFM_to_x1_y2_N) {
+	std::unique_ptr<ExecutorImpl> pExecutor(
+		ExecutorImpl::NewExecutor({false, 1, 1, 'N'}));
+	std::string command = "FFM";
+	pExecutor->Execute(command);
+	ASSERT_EQ(pExecutor->Query().x, 1);
+	ASSERT_EQ(pExecutor->Query().y, 2);
+	ASSERT_EQ(pExecutor->Query().heading, 'N');
+}
+
+TEST(ExecutorTest, x1_y1_E_use_FL_to_x2_y1_N) {
+	std::unique_ptr<ExecutorImpl> pExecutor(
+		ExecutorImpl::NewExecutor({false, 1, 1, 'E'}));
+	std::string command = "FL";
+	pExecutor->Execute(command);
+	ASSERT_EQ(pExecutor->Query().x, 2);
+	ASSERT_EQ(pExecutor->Query().y, 1);
+	ASSERT_EQ(pExecutor->Query().heading, 'N');
+}
+
+TEST(ExecutorTest, x1_y1_E_use_FR_to_x2_y1_S) {
+	std::unique_ptr<ExecutorImpl> pExecutor(
+		ExecutorImpl::NewExecutor({false, 1, 1, 'E'}));
+	std::string command = "FR";
+	pExecutor->Execute(command);
+	ASSERT_EQ(pExecutor->Query().x, 2);
+	ASSERT_EQ(pExecutor->Query().y, 1);
+	ASSERT_EQ(pExecutor->Query().heading, 'S');
+}
