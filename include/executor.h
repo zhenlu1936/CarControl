@@ -33,19 +33,21 @@ class Executor {
    public:
 	virtual void Execute(const std::string& command) noexcept = 0;
 	virtual Pose Query() const noexcept = 0;
-	virtual void Change(const Pose& pose) noexcept = 0;
 };
 
 class ExecutorImpl : public Executor {
    public:
 	static ExecutorImpl* NewExecutor(const Pose& pose = {0, 0, 'N'});
-
 	ExecutorImpl(const Pose& poseIn);
 
-   public:
-	virtual void Execute(const std::string& command) noexcept;
 	virtual Pose Query() const noexcept;
-	virtual void Change(const Pose& pose) noexcept;
+	virtual void Execute(const std::string& command) noexcept;
+
+   private:
+	virtual void ChangeTo(const Pose& pose) noexcept;
+	void Move(Pose& currentPose) noexcept;
+	void TurnLeft(Pose& currentPose) noexcept;
+	void TurnRight(Pose& currentPose) noexcept;
 };
 
 }  // namespace car
