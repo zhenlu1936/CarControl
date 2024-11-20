@@ -41,6 +41,9 @@ void ExecutorImpl::Execute(const std::string& command) noexcept {
 				cmder = std::make_unique<TurnRightCommand>();
 				break;
 			}
+			case ('F'): {
+				cmder = std::make_unique<FastCommand>();
+			}
 			default:
 				break;
 		}

@@ -63,6 +63,9 @@ class ExecutorImpl : public Executor {
 	   public:
 		void Operate(ExecutorImpl& executor) const noexcept {
 			Pose currentPose = executor.Query();
+			if (currentPose.fastStatus == true) {
+				Move(currentPose);
+			}
 			Move(currentPose);
 			executor.ChangePoseTo(currentPose);
 		}
@@ -72,6 +75,9 @@ class ExecutorImpl : public Executor {
 	   public:
 		void Operate(ExecutorImpl& executor) const noexcept {
 			Pose currentPose = executor.Query();
+			if (currentPose.fastStatus == true) {
+				Move(currentPose);
+			}
 			TurnLeft(currentPose);
 			executor.ChangePoseTo(currentPose);
 		}
@@ -81,6 +87,9 @@ class ExecutorImpl : public Executor {
 	   public:
 		void Operate(ExecutorImpl& executor) const noexcept {
 			Pose currentPose = executor.Query();
+			if (currentPose.fastStatus == true) {
+				Move(currentPose);
+			}
 			TurnRight(currentPose);
 			executor.ChangePoseTo(currentPose);
 		}
