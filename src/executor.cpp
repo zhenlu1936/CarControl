@@ -30,38 +30,44 @@ void ExecutorImpl::Execute(const std::string& command) noexcept {
 
 		switch (oneCommand) {
 			case ('M'):
-				currentPose.x +=
-					forward[dir_char_to_int[currentPose.heading]][X];
-				currentPose.y +=
-					forward[dir_char_to_int[currentPose.heading]][Y];
+				Move(currentPose);
 				break;
 
 			case ('L'):
-				currentPose.heading =
-					dir_int_to_char[(DIRECTIONS +
-									 dir_char_to_int[currentPose.heading] - 1) %
-									DIRECTIONS];
+				TurnLeft(currentPose);
 				break;
 
 			case ('R'):
-				currentPose.heading =
-					dir_int_to_char[(DIRECTIONS +
-									 dir_char_to_int[currentPose.heading] + 1) %
-									DIRECTIONS];
+				TurnRight(currentPose);
 				break;
 
 			default:
 				break;
 		}
 
-		Change(currentPose);
+		ChangeTo(currentPose);
 	}
 }
 
 Pose ExecutorImpl::Query() const noexcept { return pose; };
 
-void ExecutorImpl::Change(const Pose& poseIn) noexcept {
+void ExecutorImpl::ChangeTo(const Pose& poseIn) noexcept {
 	pose.heading = poseIn.heading;
 	pose.x = poseIn.x;
 	pose.y = poseIn.y;
+}
+
+void ExecutorImpl::Move(Pose& currentPose) noexcept {
+	currentPose.x += forward[dir_char_to_int[currentPose.heading]][X];
+	currentPose.y += forward[dir_char_to_int[currentPose.heading]][Y];
+}
+
+void ExecutorImpl::TurnLeft(Pose& currentPose) noexcept {
+	currentPose.heading = dir_int_to_char
+		[(DIRECTIONS + dir_char_to_int[currentPose.heading] - 1) % DIRECTIONS];
+}
+
+void ExecutorImpl::TurnRight(Pose& currentPose) noexcept {
+	currentPose.heading = dir_int_to_char
+		[(DIRECTIONS + dir_char_to_int[currentPose.heading] + 1) % DIRECTIONS];
 }
