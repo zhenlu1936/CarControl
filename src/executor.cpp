@@ -53,10 +53,19 @@ void ExecutorImpl::Execute(const std::string& command) noexcept {
 
 Pose ExecutorImpl::Query() const noexcept { return pose; };
 
-void ExecutorImpl::ChangeTo(const Pose& poseIn) noexcept {
+void ExecutorImpl::ChangePoseTo(const Pose& poseIn) noexcept {
 	pose.heading = poseIn.heading;
 	pose.x = poseIn.x;
 	pose.y = poseIn.y;
+	pose.fastStatus = poseIn.fastStatus;
+}
+
+void ExecutorImpl::EnableFast(Pose& currentPose) noexcept {
+	currentPose.fastStatus = true;
+}
+
+void ExecutorImpl::DisableFast(Pose& currentPose) noexcept {
+	currentPose.fastStatus = false;
 }
 
 void ExecutorImpl::Move(Pose& currentPose) noexcept {
