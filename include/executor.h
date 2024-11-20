@@ -2,17 +2,13 @@
 #include <map>
 #include <string>
 
+#include "pose.h"
+
 #define DIRECTIONS 4
 #define X 0
 #define Y 1
 
 namespace car {
-
-struct Pose {
-	bool fastStatus;
-	int x, y;
-	char heading;
-};
 
 extern std::map<char, int> dir_char_to_int;
 extern std::map<int, char> dir_int_to_char;

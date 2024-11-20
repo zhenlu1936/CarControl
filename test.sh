@@ -1,3 +1,4 @@
+rm build/tests/executorTestsRun
 cd build
 cmake ..
 make
