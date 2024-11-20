@@ -48,6 +48,33 @@ class ExecutorImpl : public Executor {
 	void Move(Pose& currentPose) noexcept;
 	void TurnLeft(Pose& currentPose) noexcept;
 	void TurnRight(Pose& currentPose) noexcept;
+
+	class MoveCommand {
+	   public:
+		void Operate(ExecutorImpl& executor) const noexcept {
+			Pose currentPose = executor.Query();
+			executor.Move(currentPose);
+			executor.ChangeTo(currentPose);
+		}
+	};
+
+	class TurnLeftCommand {
+	   public:
+		void Operate(ExecutorImpl& executor) const noexcept {
+			Pose currentPose = executor.Query();
+			executor.TurnLeft(currentPose);
+			executor.ChangeTo(currentPose);
+		}
+	};
+
+	class TurnRightCommand {
+	   public:
+		void Operate(ExecutorImpl& executor) const noexcept {
+			Pose currentPose = executor.Query();
+			executor.TurnRight(currentPose);
+			executor.ChangeTo(currentPose);
+		}
+	};
 };
 
 }  // namespace car
