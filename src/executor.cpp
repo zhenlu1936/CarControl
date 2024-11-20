@@ -26,26 +26,26 @@ ExecutorImpl::ExecutorImpl(const Pose& poseIn) {
 void ExecutorImpl::Execute(const std::string& command) noexcept {
 	for (int i = 0; i < command.length(); i++) {
 		char oneCommand = command[i];
-		Pose currentPose = Query();
 
 		switch (oneCommand) {
-			case ('M'):
-				Move(currentPose);
+			case ('M'): {
+				std::unique_ptr<MoveCommand> cmder(new MoveCommand);
+				cmder->Operate(*this);
 				break;
-
-			case ('L'):
-				TurnLeft(currentPose);
+			}
+			case ('L'): {
+				std::unique_ptr<TurnLeftCommand> cmder(new TurnLeftCommand);
+				cmder->Operate(*this);
 				break;
-
-			case ('R'):
-				TurnRight(currentPose);
+			}
+			case ('R'): {
+				std::unique_ptr<TurnRightCommand> cmder(new TurnRightCommand);
+				cmder->Operate(*this);
 				break;
-
+			}
 			default:
 				break;
 		}
-
-		ChangeTo(currentPose);
 	}
 }
 
