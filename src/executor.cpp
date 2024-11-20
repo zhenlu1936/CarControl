@@ -18,6 +18,7 @@ ExecutorImpl* ExecutorImpl::NewExecutor(const Pose& pose) {
 }
 
 ExecutorImpl::ExecutorImpl(const Pose& poseIn) {
+	pose.fastStatus = poseIn.fastStatus;
 	pose.heading = poseIn.heading;
 	pose.x = poseIn.x;
 	pose.y = poseIn.y;
