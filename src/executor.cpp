@@ -15,7 +15,7 @@ std::map<char, int> car::dir_char_to_int = {
 std::map<int, char> car::dir_int_to_char = {
 	{0, 'N'}, {1, 'E'}, {2, 'S'}, {3, 'W'}};
 int car::forward[DIRECTIONS][2] = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
-std::map<char, std::unique_ptr<ICommand>> cmderMap;
+std::map<char, std::function<void(PoseHandler& poseHandler)>> cmderMap;
 
 ExecutorImpl* ExecutorImpl::NewExecutor(const Pose& pose) {
 	ExecutorImpl* pExecutor = new ExecutorImpl(pose);
@@ -29,7 +29,7 @@ void ExecutorImpl::Execute(const std::string& command) noexcept {
 		PoseHandler& poseHandler = this->Query();
 
 		if (oneCommand) {
-			cmderMap[oneCommand]->Operate(poseHandler);
+			cmderMap[oneCommand](poseHandler);
 		}
 	}
 }
@@ -37,8 +37,12 @@ void ExecutorImpl::Execute(const std::string& command) noexcept {
 PoseHandler& ExecutorImpl::Query() noexcept { return poseHandler; }
 
 void ExecutorImpl::InitalizeCmder() noexcept {
-	cmderMap.emplace('M', std::make_unique<MoveCommand>());
-	cmderMap.emplace('L', std::make_unique<TurnLeftCommand>());
-	cmderMap.emplace('R', std::make_unique<TurnRightCommand>());
-	cmderMap.emplace('F', std::make_unique<FastCommand>());
+	MoveCommand moveCommand;
+	cmderMap.emplace('M', moveCommand.operate);
+	TurnLeftCommand turnLeftCommand;
+	cmderMap.emplace('L', turnLeftCommand.operate);
+	TurnRightCommand turnRightCommand;
+	cmderMap.emplace('R', turnRightCommand.operate);
+	FastCommand fastCommand;
+	cmderMap.emplace('F', fastCommand.operate);
 }

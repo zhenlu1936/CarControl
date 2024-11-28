@@ -1,49 +1,50 @@
+#include <functional>
+
 #include "pose_handler.h"
 
 namespace car {
-class ICommand {
-   public:
-	virtual ~ICommand() = default;
-	virtual void Operate(PoseHandler& poseHandler) const noexcept = 0;
-};
 
-class MoveCommand : public ICommand {
+class MoveCommand final {
    public:
-	void Operate(PoseHandler& poseHandler) const noexcept {
-		if (poseHandler.IsFast()) {
+	const std::function<void(PoseHandler& PoseHandler)> operate =
+		[](PoseHandler& poseHandler) noexcept {
+			if (poseHandler.IsFast()) {
+				poseHandler.Move();
+			}
 			poseHandler.Move();
-		}
-		poseHandler.Move();
-	}
+		};
 };
 
-class TurnLeftCommand : public ICommand {
+class TurnLeftCommand final {
    public:
-	void Operate(PoseHandler& poseHandler) const noexcept {
-		if (poseHandler.IsFast()) {
-			poseHandler.Move();
-		}
-		poseHandler.TurnLeft();
-	}
+	const std::function<void(PoseHandler& PoseHandler)> operate =
+		[](PoseHandler& poseHandler) noexcept {
+			if (poseHandler.IsFast()) {
+				poseHandler.Move();
+			}
+			poseHandler.TurnLeft();
+		};
 };
 
-class TurnRightCommand : public ICommand {
+class TurnRightCommand final {
    public:
-	void Operate(PoseHandler& poseHandler) const noexcept {
-		if (poseHandler.IsFast()) {
-			poseHandler.Move();
-		}
-		poseHandler.TurnRight();
-	}
+	const std::function<void(PoseHandler& PoseHandler)> operate =
+		[](PoseHandler& poseHandler) noexcept {
+			if (poseHandler.IsFast()) {
+				poseHandler.Move();
+			}
+			poseHandler.TurnRight();
+		};
 };
 
-class FastCommand : public ICommand {
+class FastCommand final {
    public:
-	void Operate(PoseHandler& poseHandler) const noexcept {
-		if (poseHandler.IsFast()) {
-			poseHandler.DisableFast();
-		} else
-			poseHandler.EnableFast();
-	}
+	const std::function<void(PoseHandler& PoseHandler)> operate =
+		[](PoseHandler& poseHandler) noexcept {
+			if (poseHandler.IsFast()) {
+				poseHandler.DisableFast();
+			} else
+				poseHandler.EnableFast();
+		};
 };
-};
+};	// namespace car
