@@ -1,19 +1,10 @@
 #pragma once
-#include <map>
 #include <string>
 
 #include "pose.h"
 #include "pose_handler.h"
 
-#define DIRECTIONS 4
-#define X 0
-#define Y 1
-
 namespace car {
-
-extern std::map<char, int> dir_char_to_int;
-extern std::map<int, char> dir_int_to_char;
-extern int forward[DIRECTIONS][2];
 
 class Executor {
    protected:
@@ -41,6 +32,8 @@ class ExecutorImpl : public Executor {
 	PoseHandler& Query() noexcept;
 	void Execute(const std::string& command) noexcept;
 	void ChangePoseTo(const PoseHandler poseHandler) noexcept;
+
+	static void InitalizeCmder() noexcept;
 
    private:
 	PoseHandler poseHandler;

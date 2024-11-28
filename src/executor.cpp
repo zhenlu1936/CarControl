@@ -5,8 +5,8 @@
 #include <sstream>
 
 #include "command.hpp"
-#include "pose_handler.h"
 #include "pose.h"
+#include "pose_handler.h"
 
 using namespace car;
 
@@ -15,6 +15,7 @@ std::map<char, int> car::dir_char_to_int = {
 std::map<int, char> car::dir_int_to_char = {
 	{0, 'N'}, {1, 'E'}, {2, 'S'}, {3, 'W'}};
 int car::forward[DIRECTIONS][2] = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+std::map<char, std::unique_ptr<ICommand>> cmderMap;
 
 ExecutorImpl* ExecutorImpl::NewExecutor(const Pose& pose) {
 	ExecutorImpl* pExecutor = new ExecutorImpl(pose);
@@ -22,35 +23,22 @@ ExecutorImpl* ExecutorImpl::NewExecutor(const Pose& pose) {
 }
 
 void ExecutorImpl::Execute(const std::string& command) noexcept {
-	for (int i = 0; i < command.length(); i++) {
-		char oneCommand = command[i];
-		std::unique_ptr<ICommand> cmder;
-		PoseHandler& poseHandler=this->Query();
+	InitalizeCmder();
 
-		switch (oneCommand) {
-			case ('M'): {
-				cmder = std::make_unique<MoveCommand>();
-				break;
-			}
-			case ('L'): {
-				cmder = std::make_unique<TurnLeftCommand>();
-				break;
-			}
-			case ('R'): {
-				cmder = std::make_unique<TurnRightCommand>();
-				break;
-			}
-			case ('F'): {
-				cmder = std::make_unique<FastCommand>();
-			}
-			default:
-				break;
-		}
+	for (char oneCommand : command) {
+		PoseHandler& poseHandler = this->Query();
 
-		if (cmder != nullptr) {
-			cmder->Operate(poseHandler);
+		if (oneCommand) {
+			cmderMap[oneCommand]->Operate(poseHandler);
 		}
 	}
 }
 
 PoseHandler& ExecutorImpl::Query() noexcept { return poseHandler; }
+
+void ExecutorImpl::InitalizeCmder() noexcept {
+	cmderMap.emplace('M', std::make_unique<MoveCommand>());
+	cmderMap.emplace('L', std::make_unique<TurnLeftCommand>());
+	cmderMap.emplace('R', std::make_unique<TurnRightCommand>());
+	cmderMap.emplace('F', std::make_unique<FastCommand>());
+}
