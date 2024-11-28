@@ -3,6 +3,7 @@
 #include <string>
 
 #include "pose.h"
+#include "pose_handler.h"
 
 #define DIRECTIONS 4
 #define X 0
@@ -28,80 +29,21 @@ class Executor {
 	Executor& operator=(const Executor&) = delete;
 
    public:
+	virtual PoseHandler& Query() noexcept = 0;
 	virtual void Execute(const std::string& command) noexcept = 0;
-	virtual Pose Query() const noexcept = 0;
 };
 
 class ExecutorImpl : public Executor {
    public:
 	static ExecutorImpl* NewExecutor(const Pose& pose = {false, 0, 0, 'N'});
-	ExecutorImpl(const Pose& poseIn);
+	ExecutorImpl(const Pose& poseIn) : poseHandler(poseIn) {}
 
-	virtual Pose Query() const noexcept;
-	virtual void Execute(const std::string& command) noexcept;
+	PoseHandler& Query() noexcept;
+	void Execute(const std::string& command) noexcept;
+	void ChangePoseTo(const PoseHandler poseHandler) noexcept;
 
    private:
-	void ChangePoseTo(const Pose& pose) noexcept;
-
-	static void Move(Pose& currentPose) noexcept;
-	static void TurnLeft(Pose& currentPose) noexcept;
-	static void TurnRight(Pose& currentPose) noexcept;
-	static void EnableFast(Pose& currentPose) noexcept;
-	static void DisableFast(Pose& currentPose) noexcept;
-
-	class ICommand {
-	   public:
-		virtual ~ICommand() = default;
-		virtual void Operate(ExecutorImpl& executor) const noexcept = 0;
-	};
-
-	class MoveCommand : public ICommand {
-	   public:
-		void Operate(ExecutorImpl& executor) const noexcept {
-			Pose currentPose = executor.Query();
-			if (currentPose.fastStatus == true) {
-				Move(currentPose);
-			}
-			Move(currentPose);
-			executor.ChangePoseTo(currentPose);
-		}
-	};
-
-	class TurnLeftCommand : public ICommand {
-	   public:
-		void Operate(ExecutorImpl& executor) const noexcept {
-			Pose currentPose = executor.Query();
-			if (currentPose.fastStatus == true) {
-				Move(currentPose);
-			}
-			TurnLeft(currentPose);
-			executor.ChangePoseTo(currentPose);
-		}
-	};
-
-	class TurnRightCommand : public ICommand {
-	   public:
-		void Operate(ExecutorImpl& executor) const noexcept {
-			Pose currentPose = executor.Query();
-			if (currentPose.fastStatus == true) {
-				Move(currentPose);
-			}
-			TurnRight(currentPose);
-			executor.ChangePoseTo(currentPose);
-		}
-	};
-
-	class FastCommand : public ICommand {
-	   public:
-		void Operate(ExecutorImpl& executor) const noexcept {
-			Pose currentPose = executor.Query();
-			if (currentPose.fastStatus == false) {
-				EnableFast(currentPose);
-			} else
-				DisableFast(currentPose);
-			executor.ChangePoseTo(currentPose);
-		}
-	};
+	PoseHandler poseHandler;
 };
 
 }  // namespace car

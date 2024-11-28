@@ -2,8 +2,6 @@
 
 #include <tuple>
 
-#include "executor.h"
-
 namespace car {
 bool operator==(const Pose& lhs, const Pose& rhs) {
 	return std::tie(lhs.fastStatus, lhs.heading, lhs.x, lhs.y) ==

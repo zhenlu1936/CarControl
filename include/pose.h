@@ -1,7 +1,17 @@
 #pragma once
+#include <map>
 #include <tuple>
 
+#define DIRECTIONS 4
+#define X 0
+#define Y 1
+
 namespace car {
+
+extern std::map<char, int> dir_char_to_int;
+extern std::map<int, char> dir_int_to_char;
+extern int forward[DIRECTIONS][2];
+
 struct Pose {
 	bool fastStatus;
 	int x, y;

@@ -4,6 +4,10 @@
 #include <iostream>
 #include <sstream>
 
+#include "command.hpp"
+#include "pose_handler.h"
+#include "pose.h"
+
 using namespace car;
 
 std::map<char, int> car::dir_char_to_int = {
@@ -17,17 +21,11 @@ ExecutorImpl* ExecutorImpl::NewExecutor(const Pose& pose) {
 	return pExecutor;
 }
 
-ExecutorImpl::ExecutorImpl(const Pose& poseIn) {
-	pose.fastStatus = poseIn.fastStatus;
-	pose.heading = poseIn.heading;
-	pose.x = poseIn.x;
-	pose.y = poseIn.y;
-}
-
 void ExecutorImpl::Execute(const std::string& command) noexcept {
 	for (int i = 0; i < command.length(); i++) {
 		char oneCommand = command[i];
 		std::unique_ptr<ICommand> cmder;
+		PoseHandler& poseHandler=this->Query();
 
 		switch (oneCommand) {
 			case ('M'): {
@@ -50,39 +48,9 @@ void ExecutorImpl::Execute(const std::string& command) noexcept {
 		}
 
 		if (cmder != nullptr) {
-			cmder->Operate(*this);
+			cmder->Operate(poseHandler);
 		}
 	}
 }
 
-Pose ExecutorImpl::Query() const noexcept { return pose; };
-
-void ExecutorImpl::ChangePoseTo(const Pose& poseIn) noexcept {
-	pose.heading = poseIn.heading;
-	pose.x = poseIn.x;
-	pose.y = poseIn.y;
-	pose.fastStatus = poseIn.fastStatus;
-}
-
-void ExecutorImpl::EnableFast(Pose& currentPose) noexcept {
-	currentPose.fastStatus = true;
-}
-
-void ExecutorImpl::DisableFast(Pose& currentPose) noexcept {
-	currentPose.fastStatus = false;
-}
-
-void ExecutorImpl::Move(Pose& currentPose) noexcept {
-	currentPose.x += forward[dir_char_to_int[currentPose.heading]][X];
-	currentPose.y += forward[dir_char_to_int[currentPose.heading]][Y];
-}
-
-void ExecutorImpl::TurnLeft(Pose& currentPose) noexcept {
-	currentPose.heading = dir_int_to_char
-		[(DIRECTIONS + dir_char_to_int[currentPose.heading] - 1) % DIRECTIONS];
-}
-
-void ExecutorImpl::TurnRight(Pose& currentPose) noexcept {
-	currentPose.heading = dir_int_to_char
-		[(DIRECTIONS + dir_char_to_int[currentPose.heading] + 1) % DIRECTIONS];
-}
+PoseHandler& ExecutorImpl::Query() noexcept { return poseHandler; }
