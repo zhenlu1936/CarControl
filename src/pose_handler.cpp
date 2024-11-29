@@ -10,7 +10,7 @@ void PoseHandler::EnableFast() noexcept { pose.fastStatus = true; }
 
 void PoseHandler::DisableFast() noexcept { pose.fastStatus = false; }
 
-void PoseHandler::Move() noexcept {
+void PoseHandler::MoveForward() noexcept {
 	pose.x += forward[dir_char_to_int[pose.heading]][X];
 	pose.y += forward[dir_char_to_int[pose.heading]][Y];
 }

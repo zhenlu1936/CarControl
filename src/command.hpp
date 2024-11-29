@@ -4,13 +4,13 @@
 
 namespace car {
 
-class MoveCommand final {
+class MoveForwardCommand final {
    public:
 	void operator()(PoseHandler& poseHandler) const noexcept {
 		if (poseHandler.IsFast()) {
-			poseHandler.Move();
+			poseHandler.MoveForward();
 		}
-		poseHandler.Move();
+		poseHandler.MoveForward();
 	};
 };
 
@@ -18,7 +18,7 @@ class TurnLeftCommand final {
    public:
 	void operator()(PoseHandler& poseHandler) const noexcept {
 		if (poseHandler.IsFast()) {
-			poseHandler.Move();
+			poseHandler.MoveForward();
 		}
 		poseHandler.TurnLeft();
 	};
@@ -28,7 +28,7 @@ class TurnRightCommand final {
    public:
 	void operator()(PoseHandler& poseHandler) const noexcept {
 		if (poseHandler.IsFast()) {
-			poseHandler.Move();
+			poseHandler.MoveForward();
 		}
 		poseHandler.TurnRight();
 	};

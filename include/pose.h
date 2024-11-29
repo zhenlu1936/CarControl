@@ -14,11 +14,28 @@ extern int forward[DIRECTIONS][2];
 
 struct Pose {
 	bool fastStatus;
+	bool backStatus;
 	int x, y;
 	char heading;
+	Pose(int xIn, int yIn, char headingIn)
+		: fastStatus(false),
+		  backStatus(false),
+		  x(xIn),
+		  y(yIn),
+		  heading(headingIn) {}
 	Pose(bool fastIn, int xIn, int yIn, char headingIn)
-		: fastStatus(fastIn), x(xIn), y(yIn), heading(headingIn) {}
-	Pose() : fastStatus(false), x(0), y(0), heading('N') {}
+		: fastStatus(fastIn),
+		  backStatus(false),
+		  x(xIn),
+		  y(yIn),
+		  heading(headingIn) {}
+	Pose(bool fastIn, bool backIn, int xIn, int yIn, char headingIn)
+		: fastStatus(fastIn),
+		  backStatus(backIn),
+		  x(xIn),
+		  y(yIn),
+		  heading(headingIn) {}
+	Pose() : fastStatus(false), backStatus(false), x(0), y(0), heading('N') {}
 };
 
 bool operator==(const Pose& lhs, const Pose& rhs);

@@ -6,7 +6,7 @@ using namespace car;
 
 TEST(ExecutorTest, default_use_M_to_x0_y1_N) {
 	std::unique_ptr<ExecutorImpl> pExecutor(ExecutorImpl::NewExecutor());
-	PoseHandler target(false, 0, 1, 'N');
+	PoseHandler target(0, 1, 'N');
 	std::string command = "M";
 
 	pExecutor->Execute(command);
@@ -15,7 +15,7 @@ TEST(ExecutorTest, default_use_M_to_x0_y1_N) {
 
 TEST(ExecutorTest, default_use_MM_to_x0_y2_N) {
 	std::unique_ptr<ExecutorImpl> pExecutor(ExecutorImpl::NewExecutor());
-	PoseHandler target(false, 0, 2, 'N');
+	PoseHandler target(0, 2, 'N');
 	std::string command = "MM";
 
 	pExecutor->Execute(command);
@@ -24,7 +24,7 @@ TEST(ExecutorTest, default_use_MM_to_x0_y2_N) {
 
 TEST(ExecutorTest, default_use_L_to_x0_y0_W) {
 	std::unique_ptr<ExecutorImpl> pExecutor(ExecutorImpl::NewExecutor());
-	PoseHandler target(false, 0, 0, 'W');
+	PoseHandler target(0, 0, 'W');
 	std::string command = "L";
 
 	pExecutor->Execute(command);
@@ -33,7 +33,7 @@ TEST(ExecutorTest, default_use_L_to_x0_y0_W) {
 
 TEST(ExecutorTest, default_use_LM_to_xn1_y0_W) {
 	std::unique_ptr<ExecutorImpl> pExecutor(ExecutorImpl::NewExecutor());
-	PoseHandler target(false, -1, 0, 'W');
+	PoseHandler target(-1, 0, 'W');
 	std::string command = "LM";
 
 	pExecutor->Execute(command);
@@ -42,7 +42,7 @@ TEST(ExecutorTest, default_use_LM_to_xn1_y0_W) {
 
 TEST(ExecutorTest, default_use_RM_to_x1_y0_E) {
 	std::unique_ptr<ExecutorImpl> pExecutor(ExecutorImpl::NewExecutor());
-	PoseHandler target(false, 1, 0, 'E');
+	PoseHandler target(1, 0, 'E');
 	std::string command = "RM";
 
 	pExecutor->Execute(command);

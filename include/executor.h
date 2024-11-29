@@ -26,7 +26,8 @@ class Executor {
 
 class ExecutorImpl : public Executor {
    public:
-	static ExecutorImpl* NewExecutor(const Pose& pose = {false, 0, 0, 'N'});
+	static ExecutorImpl* NewExecutor(const Pose& pose = {false, false, 0, 0,
+														 'N'});
 	ExecutorImpl(const Pose& poseIn) : poseHandler(poseIn) {}
 
 	PoseHandler& Query() noexcept;
