@@ -26,12 +26,13 @@ void ExecutorImpl::Execute(const std::string& command) noexcept {
 		{'M', MoveCommand()},
 		{'L', TurnLeftCommand()},
 		{'R', TurnRightCommand()},
-		{'F', FastCommand()}};
+		{'F', FastCommand()},
+		{'B', BackCommand()}};
 
 	for (char oneCommand : command) {
 		PoseHandler& poseHandler = this->Query();
 
-		if (oneCommand) {
+		if (cmderMap.find(oneCommand)!=cmderMap.end()) {
 			cmderMap[oneCommand](poseHandler);
 		}
 	}
