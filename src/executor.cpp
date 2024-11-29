@@ -23,7 +23,7 @@ ExecutorImpl* ExecutorImpl::NewExecutor(const Pose& pose) {
 
 void ExecutorImpl::Execute(const std::string& command) noexcept {
 	std::unordered_map<char, std::function<void(PoseHandler & poseHandler)>> cmderMap{
-		{'M', MoveForwardCommand()},
+		{'M', MoveCommand()},
 		{'L', TurnLeftCommand()},
 		{'R', TurnRightCommand()},
 		{'F', FastCommand()}};
