@@ -8,8 +8,8 @@
 
 namespace car {
 
-extern std::map<char, int> dir_char_to_int;
-extern std::map<int, char> dir_int_to_char;
+extern std::unordered_map<char, int> dir_char_to_int;
+extern std::unordered_map<int, char> dir_int_to_char;
 extern int forward[DIRECTIONS][2];
 
 struct Pose {
