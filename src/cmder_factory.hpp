@@ -4,9 +4,10 @@
 #include <unordered_map>
 
 #include "command.hpp"
+#include "action_group.h"
 
 namespace car {
-using Cmder = std::function<void(PoseHandler& poseHandler)>;
+using Cmder = std::function<ActionGroup(PoseHandler& poseHandler)>;
 
 class CmderFactory final {
    public:

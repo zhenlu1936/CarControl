@@ -6,19 +6,15 @@ PoseHandler::PoseHandler(const Pose& pose) noexcept : pose(pose) {};
 PoseHandler::PoseHandler(const PoseHandler& poseHandler) noexcept
 	: pose(poseHandler.Query()) {};
 
-void PoseHandler::EnableFast() noexcept { pose.fastStatus = true; }
+void PoseHandler::ChangeFast() noexcept { pose.fastStatus = !pose.fastStatus; }
 
-void PoseHandler::DisableFast() noexcept { pose.fastStatus = false; }
-
-void PoseHandler::EnableBack() noexcept { pose.backStatus = true; }
-
-void PoseHandler::DisableBack() noexcept { pose.backStatus = false; }
+void PoseHandler::ChangeReverse() noexcept { pose.backStatus = !pose.backStatus; }
 
 void PoseHandler::MoveForward() noexcept {
 	pose.point += pose.direction.Move();
 }
 
-void PoseHandler::MoveBackwards() noexcept {
+void PoseHandler::MoveBackward() noexcept {
 	pose.point -= pose.direction.Move();
 }
 

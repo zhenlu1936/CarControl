@@ -1,98 +1,91 @@
 #include <functional>
 
 #include "pose_handler.h"
+#include "action_group.h"
 
 namespace car {
 
 class MoveCommand final {
    public:
-	void operator()(PoseHandler& poseHandler) const noexcept {
+	ActionGroup operator()(PoseHandler& poseHandler) const noexcept {
+		ActionGroup actionGroup;
 		if (!poseHandler.IsBack() && !poseHandler.IsFast()) {
-			poseHandler.MoveForward();
-			return;
+			actionGroup.PushAction(ActionType::FORWARD_1_STEP_ACTION);
 		}
 		if (!poseHandler.IsBack() && poseHandler.IsFast()) {
-			poseHandler.MoveForward();
-			poseHandler.MoveForward();
-			return;
+			actionGroup.PushAction(ActionType::FORWARD_1_STEP_ACTION);
+			actionGroup.PushAction(ActionType::FORWARD_1_STEP_ACTION);
 		}
 		if (poseHandler.IsBack() && !poseHandler.IsFast()) {
-			poseHandler.MoveBackwards();
-			return;
+			actionGroup.PushAction(ActionType::BACKWARD_1_STEP_ACTION);
 		}
 		if (poseHandler.IsBack() && poseHandler.IsFast()) {
-			poseHandler.MoveBackwards();
-			poseHandler.MoveBackwards();
-			return;
+			actionGroup.PushAction(ActionType::BACKWARD_1_STEP_ACTION);
+			actionGroup.PushAction(ActionType::BACKWARD_1_STEP_ACTION);
 		}
+		return actionGroup;
 	};
 };
 
 class TurnLeftCommand final {
    public:
-	void operator()(PoseHandler& poseHandler) const noexcept {
+	ActionGroup operator()(PoseHandler& poseHandler) const noexcept {
+		ActionGroup actionGroup;
 		if (!poseHandler.IsBack() && !poseHandler.IsFast()) {
-			poseHandler.TurnLeft();
-			return;
+			actionGroup.PushAction(ActionType::TURN_LEFT_ACTION);
 		}
 		if (!poseHandler.IsBack() && poseHandler.IsFast()) {
-			poseHandler.MoveForward();
-			poseHandler.TurnLeft();
-			return;
+			actionGroup.PushAction(ActionType::FORWARD_1_STEP_ACTION);
+			actionGroup.PushAction(ActionType::TURN_LEFT_ACTION);
 		}
 		if (poseHandler.IsBack() && !poseHandler.IsFast()) {
-			poseHandler.TurnRight();
-			return;
+			actionGroup.PushAction(ActionType::REVERSE_TURN_LEFT_ACTION);
 		}
 		if (poseHandler.IsBack() && poseHandler.IsFast()) {
-			poseHandler.MoveBackwards();
-			poseHandler.TurnRight();
-			return;
+			actionGroup.PushAction(ActionType::BACKWARD_1_STEP_ACTION);
+			actionGroup.PushAction(ActionType::REVERSE_TURN_LEFT_ACTION);
 		}
+		return actionGroup;
 	};
 };
 
 class TurnRightCommand final {
    public:
-	void operator()(PoseHandler& poseHandler) const noexcept {
+	ActionGroup operator()(PoseHandler& poseHandler) const noexcept {
+		ActionGroup actionGroup;
 		if (!poseHandler.IsBack() && !poseHandler.IsFast()) {
-			poseHandler.TurnRight();
-			return;
+			actionGroup.PushAction(ActionType::TURN_RIGHT_ACTION);
 		}
 		if (!poseHandler.IsBack() && poseHandler.IsFast()) {
-			poseHandler.MoveForward();
-			poseHandler.TurnRight();
-			return;
+			actionGroup.PushAction(ActionType::FORWARD_1_STEP_ACTION);
+			actionGroup.PushAction(ActionType::TURN_RIGHT_ACTION);
 		}
 		if (poseHandler.IsBack() && !poseHandler.IsFast()) {
-			poseHandler.TurnLeft();
-			return;
+			actionGroup.PushAction(ActionType::REVERSE_TURN_RIGHT_ACTION);
 		}
 		if (poseHandler.IsBack() && poseHandler.IsFast()) {
-			poseHandler.MoveBackwards();
-			poseHandler.TurnLeft();
-			return;
+			actionGroup.PushAction(ActionType::BACKWARD_1_STEP_ACTION);
+			actionGroup.PushAction(ActionType::REVERSE_TURN_RIGHT_ACTION);
 		}
+		return actionGroup;
 	};
 };
 
 class FastCommand final {
    public:
-	void operator()(PoseHandler& poseHandler) const noexcept {
-		if (poseHandler.IsFast()) {
-			poseHandler.DisableFast();
-		} else
-			poseHandler.EnableFast();
+	ActionGroup operator()(PoseHandler& poseHandler) const noexcept {
+		ActionGroup actionGroup;
+		actionGroup.PushAction(ActionType::CHANGE_FAST_ACTION);
+		return actionGroup;
 	};
 };
 
 class BackCommand final {
    public:
-	void operator()(PoseHandler& poseHandler) const noexcept {
-		if (poseHandler.IsBack()) {
-			poseHandler.DisableBack();
-		} else
-			poseHandler.EnableBack();
+	ActionGroup operator()(PoseHandler& poseHandler) const noexcept {
+		ActionGroup actionGroup;
+		actionGroup.PushAction(ActionType::CHANGE_REVERSE_ACTION);
+		return actionGroup;
 	};
 };
 };	// namespace car
