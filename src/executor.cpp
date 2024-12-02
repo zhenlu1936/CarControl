@@ -4,9 +4,10 @@
 #include <iostream>
 #include <sstream>
 
-#include "command.hpp"
+#include "cmder_factory.hpp"
 #include "pose.h"
 #include "pose_handler.h"
+#include "singleton.h"
 
 using namespace car;
 
@@ -21,21 +22,13 @@ ExecutorImpl* ExecutorImpl::NewExecutor(const Pose& pose) {
 	return pExecutor;
 }
 
-void ExecutorImpl::Execute(const std::string& command) noexcept {
-	std::unordered_map<char, std::function<void(PoseHandler & poseHandler)>> cmderMap{
-		{'M', MoveCommand()},
-		{'L', TurnLeftCommand()},
-		{'R', TurnRightCommand()},
-		{'F', FastCommand()},
-		{'B', BackCommand()}};
-
-	for (char oneCommand : command) {
-		PoseHandler& poseHandler = this->Query();
-
-		if (cmderMap.find(oneCommand)!=cmderMap.end()) {
-			cmderMap[oneCommand](poseHandler);
-		}
-	}
+void ExecutorImpl::Execute(const std::string& commands) noexcept {
+	const auto cmders = Singleton<CmderFactory>::instance().GetCmders(commands);
+	std::for_each(
+		cmders.begin(), cmders.end(),
+		[this](const std::function<void(PoseHandler & poseHandler)>& cmder) {
+			cmder(poseHandler);
+		});
 }
 
 PoseHandler& ExecutorImpl::Query() noexcept { return poseHandler; }
