@@ -15,26 +15,16 @@ void PoseHandler::EnableBack() noexcept { pose.backStatus = true; }
 void PoseHandler::DisableBack() noexcept { pose.backStatus = false; }
 
 void PoseHandler::MoveForward() noexcept {
-	pose.x += forward[dir_char_to_int[pose.heading]][X];
-	pose.y += forward[dir_char_to_int[pose.heading]][Y];
+	pose.point += pose.direction.Move();
 }
 
 void PoseHandler::MoveBackwards() noexcept {
-	pose.x -= forward[dir_char_to_int[pose.heading]][X];
-	pose.y -= forward[dir_char_to_int[pose.heading]][Y];
+	pose.point -= pose.direction.Move();
 }
 
-void PoseHandler::TurnLeft() noexcept {
-	pose.heading =
-		dir_int_to_char[(DIRECTIONS + dir_char_to_int[pose.heading] - 1) %
-						DIRECTIONS];
-}
+void PoseHandler::TurnLeft() noexcept { pose.direction.TurnLeft(); }
 
-void PoseHandler::TurnRight() noexcept {
-	pose.heading =
-		dir_int_to_char[(DIRECTIONS + dir_char_to_int[pose.heading] + 1) %
-						DIRECTIONS];
-}
+void PoseHandler::TurnRight() noexcept { pose.direction.TurnRight(); }
 
 Pose PoseHandler::Query() const noexcept { return pose; };
 
