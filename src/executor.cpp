@@ -23,7 +23,9 @@ ExecutorImpl* ExecutorImpl::NewExecutor(const Pose& pose) {
 }
 
 void ExecutorImpl::Execute(const std::string& commands) noexcept {
-	const auto cmders = Singleton<CmderFactory>::instance().GetCmders(commands);
+	std::string parsedCommands =
+		Singleton<CmderFactory>::instance().ParseCommandString(commands);
+	const auto cmders = Singleton<CmderFactory>::instance().GetCmders(parsedCommands);
 	std::for_each(cmders.begin(), cmders.end(), [this](const Cmder& cmder) {
 		cmder(poseHandler).DoAction(poseHandler);
 	});
