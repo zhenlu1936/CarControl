@@ -22,7 +22,7 @@ class PoseHandler final {
 
 	Pose Query(void) const noexcept;
 	bool IsFast(void) const noexcept;
-	bool IsBack(void) const noexcept;
+	bool IsReverse(void) const noexcept;
 
    private:
 	Pose pose;

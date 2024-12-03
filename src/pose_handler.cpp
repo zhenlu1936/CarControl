@@ -26,7 +26,7 @@ Pose PoseHandler::Query() const noexcept { return pose; };
 
 bool PoseHandler::IsFast() const noexcept { return pose.fastStatus; };
 
-bool PoseHandler::IsBack() const noexcept { return pose.backStatus; };
+bool PoseHandler::IsReverse() const noexcept { return pose.backStatus; };
 
 bool operator==(const PoseHandler& lhs, const PoseHandler& rhs) noexcept {
 	return lhs.Query() == rhs.Query();

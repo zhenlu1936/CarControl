@@ -198,3 +198,33 @@ TEST(ExecutorTest, x0_y0_N_use_FFM_to_x0_y1_N) {
 	pExecutor->Execute(command);
 	ASSERT_EQ(pExecutor->Query(), target);
 }
+
+TEST(ExecutorTest, x0_y0_E_use_TR_to_x0_y1_W) {
+	std::unique_ptr<ExecutorImpl> pExecutor(
+		ExecutorImpl::NewExecutor({false, false, 0, 0, 'E'}));
+	PoseHandler target(false, false, 0, 1, 'W');
+	std::string command = "TR";
+
+	pExecutor->Execute(command);
+	ASSERT_EQ(pExecutor->Query(), target);
+}
+
+TEST(ExecutorTest, x0_y0_E_use_FTR_to_x1_y1_W) {
+	std::unique_ptr<ExecutorImpl> pExecutor(
+		ExecutorImpl::NewExecutor({false, false, 0, 0, 'E'}));
+	PoseHandler target(true, false, 1, 1, 'W');
+	std::string command = "FTR";
+
+	pExecutor->Execute(command);
+	ASSERT_EQ(pExecutor->Query(), target);
+}
+
+TEST(ExecutorTest, x0_y0_E_use_BTR_to_x0_y0_E) {
+	std::unique_ptr<ExecutorImpl> pExecutor(
+		ExecutorImpl::NewExecutor({false, false, 0, 0, 'E'}));
+	PoseHandler target(false, true, 0, 0, 'E');
+	std::string command = "BTR";
+
+	pExecutor->Execute(command);
+	ASSERT_EQ(pExecutor->Query(), target);
+}

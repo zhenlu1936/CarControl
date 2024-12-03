@@ -9,17 +9,17 @@ class MoveCommand final {
    public:
 	ActionGroup operator()(PoseHandler& poseHandler) const noexcept {
 		ActionGroup actionGroup;
-		if (!poseHandler.IsBack() && !poseHandler.IsFast()) {
+		if (!poseHandler.IsReverse() && !poseHandler.IsFast()) {
 			actionGroup.PushAction(ActionType::FORWARD_1_STEP_ACTION);
 		}
-		if (!poseHandler.IsBack() && poseHandler.IsFast()) {
+		if (!poseHandler.IsReverse() && poseHandler.IsFast()) {
 			actionGroup.PushAction(ActionType::FORWARD_1_STEP_ACTION);
 			actionGroup.PushAction(ActionType::FORWARD_1_STEP_ACTION);
 		}
-		if (poseHandler.IsBack() && !poseHandler.IsFast()) {
+		if (poseHandler.IsReverse() && !poseHandler.IsFast()) {
 			actionGroup.PushAction(ActionType::BACKWARD_1_STEP_ACTION);
 		}
-		if (poseHandler.IsBack() && poseHandler.IsFast()) {
+		if (poseHandler.IsReverse() && poseHandler.IsFast()) {
 			actionGroup.PushAction(ActionType::BACKWARD_1_STEP_ACTION);
 			actionGroup.PushAction(ActionType::BACKWARD_1_STEP_ACTION);
 		}
@@ -31,17 +31,17 @@ class TurnLeftCommand final {
    public:
 	ActionGroup operator()(PoseHandler& poseHandler) const noexcept {
 		ActionGroup actionGroup;
-		if (!poseHandler.IsBack() && !poseHandler.IsFast()) {
+		if (!poseHandler.IsReverse() && !poseHandler.IsFast()) {
 			actionGroup.PushAction(ActionType::TURN_LEFT_ACTION);
 		}
-		if (!poseHandler.IsBack() && poseHandler.IsFast()) {
+		if (!poseHandler.IsReverse() && poseHandler.IsFast()) {
 			actionGroup.PushAction(ActionType::FORWARD_1_STEP_ACTION);
 			actionGroup.PushAction(ActionType::TURN_LEFT_ACTION);
 		}
-		if (poseHandler.IsBack() && !poseHandler.IsFast()) {
+		if (poseHandler.IsReverse() && !poseHandler.IsFast()) {
 			actionGroup.PushAction(ActionType::REVERSE_TURN_LEFT_ACTION);
 		}
-		if (poseHandler.IsBack() && poseHandler.IsFast()) {
+		if (poseHandler.IsReverse() && poseHandler.IsFast()) {
 			actionGroup.PushAction(ActionType::BACKWARD_1_STEP_ACTION);
 			actionGroup.PushAction(ActionType::REVERSE_TURN_LEFT_ACTION);
 		}
@@ -53,17 +53,17 @@ class TurnRightCommand final {
    public:
 	ActionGroup operator()(PoseHandler& poseHandler) const noexcept {
 		ActionGroup actionGroup;
-		if (!poseHandler.IsBack() && !poseHandler.IsFast()) {
+		if (!poseHandler.IsReverse() && !poseHandler.IsFast()) {
 			actionGroup.PushAction(ActionType::TURN_RIGHT_ACTION);
 		}
-		if (!poseHandler.IsBack() && poseHandler.IsFast()) {
+		if (!poseHandler.IsReverse() && poseHandler.IsFast()) {
 			actionGroup.PushAction(ActionType::FORWARD_1_STEP_ACTION);
 			actionGroup.PushAction(ActionType::TURN_RIGHT_ACTION);
 		}
-		if (poseHandler.IsBack() && !poseHandler.IsFast()) {
+		if (poseHandler.IsReverse() && !poseHandler.IsFast()) {
 			actionGroup.PushAction(ActionType::REVERSE_TURN_RIGHT_ACTION);
 		}
-		if (poseHandler.IsBack() && poseHandler.IsFast()) {
+		if (poseHandler.IsReverse() && poseHandler.IsFast()) {
 			actionGroup.PushAction(ActionType::BACKWARD_1_STEP_ACTION);
 			actionGroup.PushAction(ActionType::REVERSE_TURN_RIGHT_ACTION);
 		}
@@ -75,6 +75,9 @@ class TurnRoundCommand final {
    public:
 	ActionGroup operator()(PoseHandler& poseHandler) const noexcept {
 		ActionGroup actionGroup;
+		if(poseHandler.IsReverse()){
+			return actionGroup;
+		}
 		if (!poseHandler.IsFast()) {
 			actionGroup.PushAction(ActionType::TURN_LEFT_ACTION);
 			actionGroup.PushAction(ActionType::FORWARD_1_STEP_ACTION);
