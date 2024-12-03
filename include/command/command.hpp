@@ -1,7 +1,7 @@
 #include <functional>
 
-#include "pose_handler.h"
-#include "action_group.h"
+#include "core/pose_handler.h"
+#include "command/action_group.h"
 
 namespace car {
 
