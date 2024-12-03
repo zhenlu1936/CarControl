@@ -32,9 +32,6 @@ class ExecutorImpl : public Executor {
 
 	PoseHandler& Query() noexcept;
 	void Execute(const std::string& command) noexcept;
-	void ChangePoseTo(const PoseHandler poseHandler) noexcept;
-
-	static void InitalizeCmder() noexcept;
 
    private:
 	PoseHandler poseHandler;

@@ -8,7 +8,7 @@ PoseHandler::PoseHandler(const PoseHandler& poseHandler) noexcept
 
 void PoseHandler::ChangeFast() noexcept { pose.fastStatus = !pose.fastStatus; }
 
-void PoseHandler::ChangeReverse() noexcept { pose.backStatus = !pose.backStatus; }
+void PoseHandler::ChangeBack() noexcept { pose.backStatus = !pose.backStatus; }
 
 void PoseHandler::MoveForward() noexcept {
 	pose.point += pose.direction.Move();
@@ -26,7 +26,7 @@ Pose PoseHandler::Query() const noexcept { return pose; };
 
 bool PoseHandler::IsFast() const noexcept { return pose.fastStatus; };
 
-bool PoseHandler::IsReverse() const noexcept { return pose.backStatus; };
+bool PoseHandler::IsBack() const noexcept { return pose.backStatus; };
 
 bool operator==(const PoseHandler& lhs, const PoseHandler& rhs) noexcept {
 	return lhs.Query() == rhs.Query();

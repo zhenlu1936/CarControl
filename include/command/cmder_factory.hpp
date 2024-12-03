@@ -17,6 +17,7 @@ class CmderFactory final {
 	CmderFactory& operator=(const CmderFactory&) noexcept = delete;
 
 	std::list<Cmder> GetCmders(const std::string& commands) {
+		auto cmderMap = cmderMapNormal;
 		std::list<Cmder> cmders;
 		for (const auto command : commands) {
 			const auto it = cmderMap.find(command);
@@ -43,9 +44,22 @@ class CmderFactory final {
 	}
 
    private:
-	const std::unordered_map<char, Cmder> cmderMap{
+	const std::unordered_map<char, Cmder> cmderMapNormal{
 		{'M', MoveCommand()},	   {'L', TurnLeftCommand()},
 		{'R', TurnRightCommand()}, {'Z', TurnRoundCommand()},
 		{'F', FastCommand()},	   {'B', BackCommand()}};
+
+	const std::unordered_map<char, Cmder> cmderMapSports{
+		{'M', MoveCommandSports()},
+		{'L', TurnLeftCommandSports()},
+		{'R', TurnRightCommandSports()},
+		{'Z', TurnRoundCommand()},
+		{'F', FastCommand()},
+		{'B', BackCommand()}};
+
+	const std::unordered_map<char, Cmder> cmderMapBus{
+		{'M', MoveCommandBus()},	  {'L', TurnLeftCommandBus()},
+		{'R', TurnRightCommandBus()}, {'Z', TurnRoundCommand()},
+		{'F', FastCommand()},		  {'B', BackCommand()}};
 };
 }  // namespace car

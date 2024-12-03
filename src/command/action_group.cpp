@@ -48,7 +48,7 @@ class ChangeFastAction final {
 class ChangeReverseAction final {
    public:
 	void operator()(PoseHandler& poseHandler) const noexcept {
-		poseHandler.ChangeReverse();
+		poseHandler.ChangeBack();
 	}
 };
 void ActionGroup::PushAction(const ActionType actionType) noexcept {
