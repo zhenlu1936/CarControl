@@ -228,3 +228,131 @@ TEST(ExecutorTest, x0_y0_E_use_BTR_to_x0_y0_E) {
 	pExecutor->Execute(command);
 	ASSERT_EQ(pExecutor->GetPoseHandler(), target);
 }
+
+/*
+Sports
+*/
+
+TEST(ExecutorTest, S_x0_y0_E_use_FM_to_x4_y0_E) {
+	std::unique_ptr<ExecutorImpl> pExecutor(
+		ExecutorImpl::NewExecutor({false, false, 0, 0, 'E'},TYPE_SPORTS));
+	PoseHandler target(true, false, 4, 0, 'E');
+	std::string command = "FM";
+
+	pExecutor->Execute(command);
+	ASSERT_EQ(pExecutor->GetPoseHandler(), target);
+}
+
+TEST(ExecutorTest, S_x0_y0_E_use_FL_to_x1_y1_N) {
+	std::unique_ptr<ExecutorImpl> pExecutor(
+		ExecutorImpl::NewExecutor({false, false, 0, 0, 'E'},TYPE_SPORTS));
+	PoseHandler target(true, false, 1, 1, 'N');
+	std::string command = "FL";
+
+	pExecutor->Execute(command);
+	ASSERT_EQ(pExecutor->GetPoseHandler(), target);
+}
+
+TEST(ExecutorTest, S_x0_y0_E_use_FR_to_x1_yn1_S) {
+	std::unique_ptr<ExecutorImpl> pExecutor(
+		ExecutorImpl::NewExecutor({false, false, 0, 0, 'E'},TYPE_SPORTS));
+	PoseHandler target(true, false, 1, -1, 'S');
+	std::string command = "FR";
+
+	pExecutor->Execute(command);
+	ASSERT_EQ(pExecutor->GetPoseHandler(), target);
+}
+
+TEST(ExecutorTest, S_x0_y0_E_use_BFM_to_xn4_y0_E) {
+	std::unique_ptr<ExecutorImpl> pExecutor(
+		ExecutorImpl::NewExecutor({false, false, 0, 0, 'E'},TYPE_SPORTS));
+	PoseHandler target(true, true, -4, 0, 'E');
+	std::string command = "BFM";
+
+	pExecutor->Execute(command);
+	ASSERT_EQ(pExecutor->GetPoseHandler(), target);
+}
+
+TEST(ExecutorTest, S_x0_y0_E_use_BFL_to_xn1_y1_S) {
+	std::unique_ptr<ExecutorImpl> pExecutor(
+		ExecutorImpl::NewExecutor({false, false, 0, 0, 'E'},TYPE_SPORTS));
+	PoseHandler target(true, true, -1, 1, 'S');
+	std::string command = "BFL";
+
+	pExecutor->Execute(command);
+	ASSERT_EQ(pExecutor->GetPoseHandler(), target);
+}
+
+TEST(ExecutorTest, S_x0_y0_E_use_BFR_to_xn1_y0_N) {
+	std::unique_ptr<ExecutorImpl> pExecutor(
+		ExecutorImpl::NewExecutor({false, false, 0, 0, 'E'},TYPE_SPORTS));
+	PoseHandler target(true, true, -1, -1, 'N');
+	std::string command = "BFR";
+
+	pExecutor->Execute(command);
+	ASSERT_EQ(pExecutor->GetPoseHandler(), target);
+}
+
+/*
+Bus
+*/
+
+TEST(ExecutorTest, B_x0_y0_E_use_FM_to_x2_y0_E) {
+	std::unique_ptr<ExecutorImpl> pExecutor(
+		ExecutorImpl::NewExecutor({false, false, 0, 0, 'E'},TYPE_BUS));
+	PoseHandler target(true, false, 2, 0, 'E');
+	std::string command = "FM";
+
+	pExecutor->Execute(command);
+	ASSERT_EQ(pExecutor->GetPoseHandler(), target);
+}
+
+TEST(ExecutorTest, B_x0_y0_E_use_FL_to_x2_y0_N) {
+	std::unique_ptr<ExecutorImpl> pExecutor(
+		ExecutorImpl::NewExecutor({false, false, 0, 0, 'E'},TYPE_BUS));
+	PoseHandler target(true, false, 2, 0, 'N');
+	std::string command = "FL";
+
+	pExecutor->Execute(command);
+	ASSERT_EQ(pExecutor->GetPoseHandler(), target);
+}
+
+TEST(ExecutorTest, B_x0_y0_E_use_FR_to_x2_y0_S) {
+	std::unique_ptr<ExecutorImpl> pExecutor(
+		ExecutorImpl::NewExecutor({false, false, 0, 0, 'E'},TYPE_BUS));
+	PoseHandler target(true, false, 2, 0, 'S');
+	std::string command = "FR";
+
+	pExecutor->Execute(command);
+	ASSERT_EQ(pExecutor->GetPoseHandler(), target);
+}
+
+TEST(ExecutorTest, B_x0_y0_E_use_BFM_to_xn2_y0_E) {
+	std::unique_ptr<ExecutorImpl> pExecutor(
+		ExecutorImpl::NewExecutor({false, false, 0, 0, 'E'},TYPE_BUS));
+	PoseHandler target(true, true, -2, 0, 'E');
+	std::string command = "BFM";
+
+	pExecutor->Execute(command);
+	ASSERT_EQ(pExecutor->GetPoseHandler(), target);
+}
+
+TEST(ExecutorTest, B_x0_y0_E_use_BFL_to_xn2_y0_S) {
+	std::unique_ptr<ExecutorImpl> pExecutor(
+		ExecutorImpl::NewExecutor({false, false, 0, 0, 'E'},TYPE_BUS));
+	PoseHandler target(true, true, -2, 0, 'S');
+	std::string command = "BFL";
+
+	pExecutor->Execute(command);
+	ASSERT_EQ(pExecutor->GetPoseHandler(), target);
+}
+
+TEST(ExecutorTest, B_x0_y0_E_use_BFR_to_xn1_y0_N) {
+	std::unique_ptr<ExecutorImpl> pExecutor(
+		ExecutorImpl::NewExecutor({false, false, 0, 0, 'E'},TYPE_BUS));
+	PoseHandler target(true, true, -2, 0, 'N');
+	std::string command = "BFR";
+
+	pExecutor->Execute(command);
+	ASSERT_EQ(pExecutor->GetPoseHandler(), target);
+}

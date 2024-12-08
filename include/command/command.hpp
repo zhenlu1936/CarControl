@@ -158,8 +158,8 @@ class TurnLeftCommandSports final {
 		}
 		if (poseHandler.IsBack() && poseHandler.IsFast()) {
 			actionGroup.PushAction(ActionType::BACKWARD_1_STEP_ACTION);
-			actionGroup.PushAction(ActionType::BACKWARD_1_STEP_ACTION);
 			actionGroup.PushAction(ActionType::REVERSE_TURN_LEFT_ACTION);
+			actionGroup.PushAction(ActionType::BACKWARD_1_STEP_ACTION);
 		}
 		return actionGroup;
 	};

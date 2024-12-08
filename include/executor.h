@@ -32,9 +32,10 @@ class ExecutorImpl : public Executor {
    public:
 	static ExecutorImpl* NewExecutor(const Pose& pose = {false, false, 0, 0,
 														 'N'},
-									 char carType = TYPE_NORMAL);
+									 const char carType = TYPE_NORMAL);
 	ExecutorImpl(const Pose& poseIn) : poseHandler(poseIn) {}
-	ExecutorImpl(const Pose& poseIn,const char carTypeIn) : poseHandler(poseIn),carType(carTypeIn) {}
+	ExecutorImpl(const Pose& poseIn, const char carTypeIn)
+		: poseHandler(poseIn), carType(carTypeIn) {}
 
 	PoseHandler& GetPoseHandler() noexcept;
 	char GetCarType() const noexcept;
