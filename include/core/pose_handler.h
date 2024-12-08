@@ -20,7 +20,7 @@ class PoseHandler final {
 	void ChangeFast(void) noexcept;
 	void ChangeBack(void) noexcept;
 
-	Pose Query(void) const noexcept;
+	Pose GetPoseHandler(void) const noexcept;
 	bool IsFast(void) const noexcept;
 	bool IsBack(void) const noexcept;
 

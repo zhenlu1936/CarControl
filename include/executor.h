@@ -4,6 +4,10 @@
 #include "pose.h"
 #include "pose_handler.h"
 
+#define TYPE_NORMAL 'n'
+#define TYPE_SPORTS 's'
+#define TYPE_BUS 'b'
+
 namespace car {
 
 class Executor {
@@ -20,21 +24,25 @@ class Executor {
 	Executor& operator=(const Executor&) = delete;
 
    public:
-	virtual PoseHandler& Query() noexcept = 0;
+	virtual PoseHandler& GetPoseHandler() noexcept = 0;
 	virtual void Execute(const std::string& command) noexcept = 0;
 };
 
 class ExecutorImpl : public Executor {
    public:
 	static ExecutorImpl* NewExecutor(const Pose& pose = {false, false, 0, 0,
-														 'N'});
+														 'N'},
+									 char carType = TYPE_NORMAL);
 	ExecutorImpl(const Pose& poseIn) : poseHandler(poseIn) {}
+	ExecutorImpl(const Pose& poseIn,const char carTypeIn) : poseHandler(poseIn),carType(carTypeIn) {}
 
-	PoseHandler& Query() noexcept;
+	PoseHandler& GetPoseHandler() noexcept;
+	char GetCarType() const noexcept;
 	void Execute(const std::string& command) noexcept;
 
    private:
 	PoseHandler poseHandler;
+	char carType;
 };
 
 }  // namespace car

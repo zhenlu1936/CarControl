@@ -5,9 +5,11 @@
 
 #include "action_group.h"
 #include "command.hpp"
+#include "executor.h"
 
 namespace car {
 using Cmder = std::function<ActionGroup(PoseHandler& poseHandler)>;
+using CmderMap = std::unordered_map<char, Cmder>;
 
 class CmderFactory final {
    public:
@@ -16,8 +18,10 @@ class CmderFactory final {
 	CmderFactory(const CmderFactory&) noexcept = delete;
 	CmderFactory& operator=(const CmderFactory&) noexcept = delete;
 
-	std::list<Cmder> GetCmders(const std::string& commands) {
-		auto cmderMap = cmderMapNormal;
+	std::list<Cmder> GetCmders(const std::string& commands,
+							   const char carType) {
+		const auto it = getCmderMap.find(carType);
+		auto cmderMap = it->second;
 		std::list<Cmder> cmders;
 		for (const auto command : commands) {
 			const auto it = cmderMap.find(command);
@@ -44,22 +48,26 @@ class CmderFactory final {
 	}
 
    private:
-	const std::unordered_map<char, Cmder> cmderMapNormal{
+	const CmderMap cmderMapNormal{
 		{'M', MoveCommand()},	   {'L', TurnLeftCommand()},
 		{'R', TurnRightCommand()}, {'Z', TurnRoundCommand()},
 		{'F', FastCommand()},	   {'B', BackCommand()}};
 
-	const std::unordered_map<char, Cmder> cmderMapSports{
-		{'M', MoveCommandSports()},
-		{'L', TurnLeftCommandSports()},
-		{'R', TurnRightCommandSports()},
-		{'Z', TurnRoundCommand()},
-		{'F', FastCommand()},
-		{'B', BackCommand()}};
+	const CmderMap cmderMapSports{{'M', MoveCommandSports()},
+								  {'L', TurnLeftCommandSports()},
+								  {'R', TurnRightCommandSports()},
+								  {'Z', TurnRoundCommand()},
+								  {'F', FastCommand()},
+								  {'B', BackCommand()}};
 
-	const std::unordered_map<char, Cmder> cmderMapBus{
+	const CmderMap cmderMapBus{
 		{'M', MoveCommandBus()},	  {'L', TurnLeftCommandBus()},
 		{'R', TurnRightCommandBus()}, {'Z', TurnRoundCommand()},
 		{'F', FastCommand()},		  {'B', BackCommand()}};
+
+	const std::unordered_map<char, CmderMap> getCmderMap{
+		{TYPE_NORMAL, cmderMapNormal},
+		{TYPE_SPORTS, cmderMapSports},
+		{TYPE_BUS, cmderMapBus}};
 };
 }  // namespace car
